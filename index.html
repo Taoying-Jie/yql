@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -79,15 +80,24 @@
             .modal.active .modal-content {
                 transform: translateY(0);
             }
+            .mobile-menu-active {
+                display: block !important;
+                animation: slideDown 0.3s ease forwards;
+            }
+            @keyframes slideDown {
+                from { opacity: 0; transform: translateY(-10px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
         }
     </style>
 </head>
+
 <body class="font-inter bg-neutral text-dark">
     <!-- 导航栏 -->
     <header class="fixed w-full bg-primary text-white shadow-md z-50 transition-all duration-300" id="navbar">
         <div class="container mx-auto px-4 py-3">
             <nav class="flex justify-between items-center">
-                <div class="text-2xl font-bold">杨勤良</div>
+                <img src="image\勤良文库.jpg" alt="杨勤良个人网页logo" class="h-12 w-auto rounded mr-4"> <!-- 示例：调整高度、添加圆角和右侧间距 -->
                 <div class="hidden md:flex space-x-8">
                     <a href="#bio" class="nav-link">简介</a>
                     <a href="#works" class="nav-link">作品</a>
@@ -96,23 +106,70 @@
                     <a href="#reviews" class="nav-link">读者评论</a>
                     <a href="#contact" class="nav-link">联系</a>
                 </div>
-                <button class="md:hidden text-2xl" id="menuToggle">
-                    <i class="fa fa-bars"></i>
+                <button class="md:hidden text-2xl menu-toggle" id="menuToggle">
+                    <i class="fa fa-bars"></i> <!-- 仅保留三横图标 -->
                 </button>
             </nav>
         </div>
         <!-- 移动端菜单 -->
         <div class="md:hidden hidden bg-primary/95 absolute w-full" id="mobileMenu">
             <div class="container mx-auto px-4 py-3 flex flex-col space-y-4">
-                <a href="#bio" class="py-2 border-b border-white/20">简介</a>
-                <a href="#works" class="py-2 border-b border-white/20">作品</a>
-                <a href="#achievements" class="py-2 border-b border-white/20">成就</a>
-                <a href="#timeline" class="py-2 border-b border-white/20">创作历程</a>
-                <a href="#reviews" class="py-2 border-b border-white/20">读者评论</a>
-                <a href="#contact" class="py-2">联系</a>
+                <a href="#bio" class="py-2 border-b border-white/20 mobile-nav-item">简介</a>
+                <a href="#works" class="py-2 border-b border-white/20 mobile-nav-item">作品</a>
+                <a href="#achievements" class="py-2 border-b border-white/20 mobile-nav-item">成就</a>
+                <a href="#timeline" class="py-2 border-b border-white/20 mobile-nav-item">创作历程</a>
+                <a href="#reviews" class="py-2 border-b border-white/20 mobile-nav-item">读者评论</a>
+                <a href="#contact" class="py-2 mobile-nav-item">联系</a>
             </div>
         </div>
     </header>
+
+    <script>
+        // 移动端菜单交互
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.getElementById('menuToggle');
+            const mobileMenu = document.getElementById('mobileMenu');
+            const mobileNavItems = document.querySelectorAll('.mobile-nav-item');
+            
+            // 切换菜单状态
+            menuToggle.addEventListener('click', function() {
+                mobileMenu.classList.toggle('mobile-menu-active');
+                
+                // 阻止事件冒泡到document
+                event.stopPropagation();
+            });
+            
+            // 点击菜单项关闭菜单
+            mobileNavItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    mobileMenu.classList.remove('mobile-menu-active');
+                });
+            });
+            
+            // 点击页面其他区域关闭菜单
+            document.addEventListener('click', function(event) {
+                if (!mobileMenu.contains(event.target) && event.target !== menuToggle) {
+                    mobileMenu.classList.remove('mobile-menu-active');
+                }
+            });
+            
+            // 滚动时导航栏样式变化
+            window.addEventListener('scroll', function() {
+                const navbar = document.getElementById('navbar');
+                if (window.scrollY > 50) {
+                    navbar.classList.add('py-2');
+                    navbar.classList.add('bg-primary/95');
+                    navbar.classList.remove('py-3');
+                } else {
+                    navbar.classList.add('py-3');
+                    navbar.classList.remove('py-2');
+                    navbar.classList.remove('bg-primary/95');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
 
     <!-- 英雄区域 -->
     <section class="pt-32 pb-20 bg-gradient-to-br from-primary to-secondary text-white">
@@ -127,16 +184,19 @@
                         中国作家协会会员，发表作品逾两百万字，专注于红色纪实文学创作，弘扬革命精神。
                     </p>
                     <div class="mt-8 flex space-x-4">
-                        <a href="#works" class="bg-accent hover:bg-accent/90 text-white px-6 py-3 rounded-lg transition-all shadow-lg hover:shadow-xl">
+                        <a href="#works"
+                            class="bg-accent hover:bg-accent/90 text-white px-6 py-3 rounded-lg transition-all shadow-lg hover:shadow-xl">
                             浏览作品
                         </a>
-                        <a href="#contact" class="bg-white/20 hover:bg-white/30 text-white border border-white/40 px-6 py-3 rounded-lg transition-all">
+                        <a href="#contact"
+                            class="bg-white/20 hover:bg-white/30 text-white border border-white/40 px-6 py-3 rounded-lg transition-all">
                             联系作者
                         </a>
                     </div>
                 </div>
                 <div class="md:w-1/2 fade-in" style="animation-delay: 0.3s">
-                    <img src="image\杨勤良.jpeg" alt="杨勤良照片" class=" w-64 h-96 md:w-64 md:h-96 mx-auto object-cover border-8 border-white/20 shadow-2xl">
+                    <img src="image\杨勤良.jpeg" alt="杨勤良照片"
+                        class=" w-64 h-96 md:w-64 md:h-96 mx-auto object-cover border-8 border-white/20 shadow-2xl">
                 </div>
             </div>
         </div>
@@ -149,7 +209,7 @@
                 <h2 class="text-[clamp(2rem,4vw,3rem)] font-bold text-primary">个人简介</h2>
                 <div class="w-20 h-1 bg-accent mx-auto mt-4"></div>
             </div>
-            
+
             <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
                 <div class="md:col-span-2 fade-in">
                     <p class="text-lg leading-relaxed mb-6">
@@ -159,10 +219,13 @@
                         其长篇传记文学《罗霄山之子》《一代骁将曾保堂》《浴血战沙场：一位抗日英雄的传奇经历》等，通过红色精神传递正能量。短篇小说《木棉花开》收录了1977至2016年创作的60篇作品，多篇被《解放军报》转载。
                     </p>
                     <p class="text-lg leading-relaxed mb-6">
-                        创作屡获殊荣，获解放军报第七届、第九届长征文艺奖，报告文学《阳光大道上的 “志愿” 人生》获第二届 “志愿文学” 征文报告文学类二等奖  ，《放羊娃的足迹 —— 记老红军王鸿荣》《木棉花开》被国家图书馆收藏 。
+                        创作屡获殊荣，获解放军报第七届、第九届长征文艺奖，报告文学《阳光大道上的 “志愿” 人生》获第二届 “志愿文学” 征文报告文学类二等奖 ，《放羊娃的足迹 ——
+                        记老红军王鸿荣》《木棉花开》被国家图书馆收藏 。
                     </p>
                     <p class="text-lg leading-relaxed mb-6">
-                        2025 年 4 月，杨勤良推出《核铀国魂：揭开中国铀矿采冶神秘面纱》。作为核铀矿工人子弟，其作品真实展现第一代核工业铀矿采冶者的奋斗图景，填补核工业题材文学空白，为爱国主义教育提供生动素材，兼具文学与历史价值。                    </p>
+                        2025 年 4
+                        月，杨勤良推出《核铀国魂：揭开中国铀矿采冶神秘面纱》。作为核铀矿工人子弟，其作品真实展现第一代核工业铀矿采冶者的奋斗图景，填补核工业题材文学空白，为爱国主义教育提供生动素材，兼具文学与历史价值。
+                    </p>
                     </p>
                     <p class="text-lg leading-relaxed mb-6">
                         杨勤良深耕红色文化与文学领域，其作品有机融合历史厚重底蕴与人文关怀精髓，依托深厚文学造诣，有力彰显奋斗精神的时代内涵，堪称当代文学弘扬时代价值的中坚力量，为社会主义文化事业的繁荣兴盛作出独特而重要的贡献。
@@ -248,81 +311,87 @@
                 <h3 class="text-xl font-bold text-primary mb-6">编辑推荐</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                     <div class="bg-white rounded-xl overflow-hidden shadow-lg card-hover">
-                        <div class="relative">
-                            <img src="image\核铀国魂.jpeg" alt="《核铀国魂》封面" class="w-full h-48 object-cover">
+                        <div class="relative h-64"> <!-- 固定卡片图片区域高度 -->
+                            <img src="image\核铀国魂.jpeg" alt="《核铀国魂》封面" class="w-full h-full object-cover">
+                            <!-- 让图片填充并保持比例 -->
                             <div class="absolute top-3 left-3 bg-accent text-white text-xs font-bold px-2 py-1 rounded">
                                 编辑推荐
                             </div>
                         </div>
-                        <div class="p-4">
+                        <div class="p-4 flex flex-col h-full"> <!-- 使用flex垂直布局并撑满高度 -->
                             <h4 class="font-bold text-lg mb-2">《核铀国魂：揭开中国铀矿采冶神秘面纱》</h4>
                             <div class="flex items-center text-sm text-gray-500 mb-3">
                                 <i class="fa fa-eye mr-1"></i> 25.6万阅读
                             </div>
-                            <p class="text-gray-600 text-sm line-clamp-3">
+                            <p class="text-gray-600 text-sm line-clamp-3 flex-grow"> <!-- 让简介区域自动填充剩余空间 -->
                                 揭秘铀矿采冶奋斗史，讲述铀矿建设者投身原子能事业、不畏艰险的奋斗故事，致敬核工业开拓者，纪念中国核工业创建70周年。
                             </p>
-                            <button class="view-details mt-4 text-primary hover:text-accent font-medium text-sm transition-colors" data-id="work1">
+                            <button
+                                class="view-details mt-4 text-primary hover:text-accent font-medium text-sm transition-colors flex-shrink-0">
+                                <!-- 防止按钮被拉长 -->
                                 阅读详情 <i class="fa fa-arrow-right ml-1"></i>
                             </button>
                         </div>
                     </div>
                     <div class="bg-white rounded-xl overflow-hidden shadow-lg card-hover">
-                        <div class="relative">
-                            <img src="image\浴血战沙场.jpeg" alt="《浴血战沙场》封面" class="w-full h-48 object-cover">
+                        <div class="relative h-64">
+                            <img src="image\浴血战沙场.jpeg" alt="《浴血战沙场》封面" class="w-full h-full object-cover">
                             <div class="absolute top-3 left-3 bg-accent text-white text-xs font-bold px-2 py-1 rounded">
                                 编辑推荐
                             </div>
                         </div>
-                        <div class="p-4">
+                        <div class="p-4 flex flex-col h-full">
                             <h4 class="font-bold text-lg mb-2">《浴血战沙场:一位抗日英雄的传奇经历》</h4>
                             <div class="flex items-center text-sm text-gray-500 mb-3">
                                 <i class="fa fa-eye mr-1"></i> 21.3万阅读
                             </div>
-                            <p class="text-gray-600 text-sm line-clamp-3">
+                            <p class="text-gray-600 text-sm line-clamp-3 flex-grow">
                                 黄埔生王大中投身抗战及新中国建设有功。
                             </p>
-                            <button class="view-details mt-4 text-primary hover:text-accent font-medium text-sm transition-colors" data-id="work3">
+                            <button
+                                class="view-details mt-4 text-primary hover:text-accent font-medium text-sm transition-colors flex-shrink-0">
                                 阅读详情 <i class="fa fa-arrow-right ml-1"></i>
                             </button>
                         </div>
                     </div>
                     <div class="bg-white rounded-xl overflow-hidden shadow-lg card-hover">
-                        <div class="relative">
-                            <img src="image\木棉花开.jpeg" alt="《木棉花开》封面" class="w-full h-48 object-cover">
+                        <div class="relative h-64">
+                            <img src="image\木棉花开.jpeg" alt="《木棉花开》封面" class="w-full h-full object-cover">
                             <div class="absolute top-3 left-3 bg-accent text-white text-xs font-bold px-2 py-1 rounded">
                                 编辑推荐
                             </div>
                         </div>
-                        <div class="p-4">
+                        <div class="p-4 flex flex-col h-full">
                             <h4 class="font-bold text-lg mb-2">《木棉花开》</h4>
                             <div class="flex items-center text-sm text-gray-500 mb-3">
                                 <i class="fa fa-eye mr-1"></i> 18.7万阅读
                             </div>
-                            <p class="text-gray-600 text-sm line-clamp-3">
+                            <p class="text-gray-600 text-sm line-clamp-3 flex-grow">
                                 收录1977至2016年创作的六十篇短篇小说。
                             </p>
-                            <button class="view-details mt-4 text-primary hover:text-accent font-medium text-sm transition-colors" data-id="work4">
+                            <button
+                                class="view-details mt-4 text-primary hover:text-accent font-medium text-sm transition-colors flex-shrink-0">
                                 阅读详情 <i class="fa fa-arrow-right ml-1"></i>
                             </button>
                         </div>
                     </div>
                     <div class="bg-white rounded-xl overflow-hidden shadow-lg card-hover">
-                        <div class="relative">
-                            <img src="image\曾保堂.jpeg" alt="《信仰的力量》封面" class="w-full h-48 object-cover">
+                        <div class="relative h-64">
+                            <img src="image\曾保堂.jpeg" alt="《一代骁将曾保堂》封面" class="w-full h-full object-cover">
                             <div class="absolute top-3 left-3 bg-accent text-white text-xs font-bold px-2 py-1 rounded">
                                 编辑推荐
                             </div>
                         </div>
-                        <div class="p-4">
+                        <div class="p-4 flex flex-col h-full">
                             <h4 class="font-bold text-lg mb-2">《一代骁将曾保堂》</h4>
                             <div class="flex items-center text-sm text-gray-500 mb-3">
                                 <i class="fa fa-eye mr-1"></i> 15.2万阅读
                             </div>
-                            <p class="text-gray-600 text-sm line-clamp-3">
+                            <p class="text-gray-600 text-sm line-clamp-3 flex-grow">
                                 介绍曾保堂生平：历经革命、抗战、建国等时期。
                             </p>
-                            <button class="view-details mt-4 text-primary hover:text-accent font-medium text-sm transition-colors" data-id="work6">
+                            <button
+                                class="view-details mt-4 text-primary hover:text-accent font-medium text-sm transition-colors flex-shrink-0">
                                 阅读详情 <i class="fa fa-arrow-right ml-1"></i>
                             </button>
                         </div>
@@ -336,8 +405,10 @@
                 <!-- 作品卡片1 -->
                 <div class="bg-white rounded-xl overflow-hidden shadow-lg card-hover fade-in">
                     <div class="relative">
-                        <img src="https://picsum.photos/seed/luoxiao/600/400" alt="《罗霄山之子》封面" class="w-full h-64 object-cover">
-                        <div class="absolute top-4 right-4 bg-accent text-white text-sm font-bold px-3 py-1 rounded-full">
+                        <img src="https://picsum.photos/seed/luoxiao/600/400" alt="《罗霄山之子》封面"
+                            class="w-full h-64 object-cover">
+                        <div
+                            class="absolute top-4 right-4 bg-accent text-white text-sm font-bold px-3 py-1 rounded-full">
                             2009年
                         </div>
                     </div>
@@ -349,17 +420,21 @@
                         <p class="text-gray-600 mb-4">
                             记录李元林将军的一生，展现坚定顽强的革命精神、崇高的思想品质与人格魅力。
                         </p>
-                        <button class="view-details text-primary hover:text-accent font-medium transition-colors" data-id="work1">
+                        <button class="view-details text-primary hover:text-accent font-medium transition-colors"
+                            data-id="work1">
                             阅读详情 <i class="fa fa-arrow-right ml-1"></i>
                         </button>
                     </div>
                 </div>
 
                 <!-- 作品卡片2 -->
-                <div class="bg-white rounded-xl overflow-hidden shadow-lg card-hover fade-in" style="animation-delay: 0.2s">
+                <div class="bg-white rounded-xl overflow-hidden shadow-lg card-hover fade-in"
+                    style="animation-delay: 0.2s">
                     <div class="relative">
-                        <img src="https://picsum.photos/seed/zengbaotang/600/400" alt="《一代骁将曾保堂》封面" class="w-full h-64 object-cover">
-                        <div class="absolute top-4 right-4 bg-accent text-white text-sm font-bold px-3 py-1 rounded-full">
+                        <img src="https://picsum.photos/seed/zengbaotang/600/400" alt="《一代骁将曾保堂》封面"
+                            class="w-full h-64 object-cover">
+                        <div
+                            class="absolute top-4 right-4 bg-accent text-white text-sm font-bold px-3 py-1 rounded-full">
                             2012年
                         </div>
                     </div>
@@ -371,17 +446,21 @@
                         <p class="text-gray-600 mb-4">
                             深入挖掘曾保堂事迹，分少年时代、北上革命征途等篇章，反映革命岁月。
                         </p>
-                        <button class="view-details text-primary hover:text-accent font-medium transition-colors" data-id="work2">
+                        <button class="view-details text-primary hover:text-accent font-medium transition-colors"
+                            data-id="work2">
                             阅读详情 <i class="fa fa-arrow-right ml-1"></i>
                         </button>
                     </div>
                 </div>
 
                 <!-- 作品卡片3 -->
-                <div class="bg-white rounded-xl overflow-hidden shadow-lg card-hover fade-in" style="animation-delay: 0.4s">
+                <div class="bg-white rounded-xl overflow-hidden shadow-lg card-hover fade-in"
+                    style="animation-delay: 0.4s">
                     <div class="relative">
-                        <img src="https://picsum.photos/seed/kangri/600/400" alt="《浴血战沙场》封面" class="w-full h-64 object-cover">
-                        <div class="absolute top-4 right-4 bg-accent text-white text-sm font-bold px-3 py-1 rounded-full">
+                        <img src="https://picsum.photos/seed/kangri/600/400" alt="《浴血战沙场》封面"
+                            class="w-full h-64 object-cover">
+                        <div
+                            class="absolute top-4 right-4 bg-accent text-white text-sm font-bold px-3 py-1 rounded-full">
                             2015年
                         </div>
                     </div>
@@ -393,7 +472,8 @@
                         <p class="text-gray-600 mb-4">
                             记录抗日英雄王满仓事迹，展现从普通战士到英雄的历程。
                         </p>
-                        <button class="view-details text-primary hover:text-accent font-medium transition-colors" data-id="work3">
+                        <button class="view-details text-primary hover:text-accent font-medium transition-colors"
+                            data-id="work3">
                             阅读详情 <i class="fa fa-arrow-right ml-1"></i>
                         </button>
                     </div>
@@ -402,8 +482,10 @@
                 <!-- 作品卡片4 -->
                 <div class="bg-white rounded-xl overflow-hidden shadow-lg card-hover fade-in">
                     <div class="relative">
-                        <img src="https://picsum.photos/seed/mumian/600/400" alt="《木棉花开》封面" class="w-full h-64 object-cover">
-                        <div class="absolute top-4 right-4 bg-accent text-white text-sm font-bold px-3 py-1 rounded-full">
+                        <img src="https://picsum.photos/seed/mumian/600/400" alt="《木棉花开》封面"
+                            class="w-full h-64 object-cover">
+                        <div
+                            class="absolute top-4 right-4 bg-accent text-white text-sm font-bold px-3 py-1 rounded-full">
                             2017年
                         </div>
                     </div>
@@ -415,17 +497,21 @@
                         <p class="text-gray-600 mb-4">
                             收录1977至2016年创作的六十篇短篇小说，以石油工地为背景，展现工人精神风貌。
                         </p>
-                        <button class="view-details text-primary hover:text-accent font-medium transition-colors" data-id="work4">
+                        <button class="view-details text-primary hover:text-accent font-medium transition-colors"
+                            data-id="work4">
                             阅读详情 <i class="fa fa-arrow-right ml-1"></i>
                         </button>
                     </div>
                 </div>
 
                 <!-- 作品卡片5 -->
-                <div class="bg-white rounded-xl overflow-hidden shadow-lg card-hover fade-in" style="animation-delay: 0.2s">
+                <div class="bg-white rounded-xl overflow-hidden shadow-lg card-hover fade-in"
+                    style="animation-delay: 0.2s">
                     <div class="relative">
-                        <img src="https://picsum.photos/seed/jiangxi/600/400" alt="《江西英烈传》封面" class="w-full h-64 object-cover">
-                        <div class="absolute top-4 right-4 bg-accent text-white text-sm font-bold px-3 py-1 rounded-full">
+                        <img src="https://picsum.photos/seed/jiangxi/600/400" alt="《江西英烈传》封面"
+                            class="w-full h-64 object-cover">
+                        <div
+                            class="absolute top-4 right-4 bg-accent text-white text-sm font-bold px-3 py-1 rounded-full">
                             2019年
                         </div>
                     </div>
@@ -437,17 +523,21 @@
                         <p class="text-gray-600 mb-4">
                             记录江西籍革命英烈的英勇事迹，弘扬革命精神和爱国主义精神。
                         </p>
-                        <button class="view-details text-primary hover:text-accent font-medium transition-colors" data-id="work5">
+                        <button class="view-details text-primary hover:text-accent font-medium transition-colors"
+                            data-id="work5">
                             阅读详情 <i class="fa fa-arrow-right ml-1"></i>
                         </button>
                     </div>
                 </div>
 
                 <!-- 作品卡片6 -->
-                <div class="bg-white rounded-xl overflow-hidden shadow-lg card-hover fade-in" style="animation-delay: 0.4s">
+                <div class="bg-white rounded-xl overflow-hidden shadow-lg card-hover fade-in"
+                    style="animation-delay: 0.4s">
                     <div class="relative">
-                        <img src="https://picsum.photos/seed/xinyong/600/400" alt="《信仰的力量》封面" class="w-full h-64 object-cover">
-                        <div class="absolute top-4 right-4 bg-accent text-white text-sm font-bold px-3 py-1 rounded-full">
+                        <img src="https://picsum.photos/seed/xinyong/600/400" alt="《信仰的力量》封面"
+                            class="w-full h-64 object-cover">
+                        <div
+                            class="absolute top-4 right-4 bg-accent text-white text-sm font-bold px-3 py-1 rounded-full">
                             2021年
                         </div>
                     </div>
@@ -459,7 +549,8 @@
                         <p class="text-gray-600 mb-4">
                             通过多位革命人物的故事，展现信仰在革命年代的重要作用和力量。
                         </p>
-                        <button class="view-details text-primary hover:text-accent font-medium transition-colors" data-id="work6">
+                        <button class="view-details text-primary hover:text-accent font-medium transition-colors"
+                            data-id="work6">
                             阅读详情 <i class="fa fa-arrow-right ml-1"></i>
                         </button>
                     </div>
@@ -568,7 +659,8 @@
                             "杨勤良的作品以真实的历史为背景，生动再现了革命先辈的英勇事迹，具有很高的历史价值和文学价值。"
                         </p>
                         <div class="flex items-center">
-                            <img src="https://picsum.photos/seed/critic1/100/100" alt="评论家照片" class="w-12 h-12 rounded-full object-cover mr-4">
+                            <img src="https://picsum.photos/seed/critic1/100/100" alt="评论家照片"
+                                class="w-12 h-12 rounded-full object-cover mr-4">
                             <div>
                                 <div class="font-bold">张教授</div>
                                 <div class="text-sm text-gray-500">军事文学评论家</div>
@@ -587,7 +679,8 @@
                             "他的纪实文学作品不仅是对历史的记录，更是对革命精神的传承和弘扬，具有深刻的现实意义。"
                         </p>
                         <div class="flex items-center">
-                            <img src="https://picsum.photos/seed/critic2/100/100" alt="评论家照片" class="w-12 h-12 rounded-full object-cover mr-4">
+                            <img src="https://picsum.photos/seed/critic2/100/100" alt="评论家照片"
+                                class="w-12 h-12 rounded-full object-cover mr-4">
                             <div>
                                 <div class="font-bold">李编辑</div>
                                 <div class="text-sm text-gray-500">某出版社主编</div>
@@ -606,7 +699,8 @@
                             "杨勤良笔下的英雄人物栩栩如生，他们的故事让人深受感动，激发了读者的爱国热情和社会责任感。"
                         </p>
                         <div class="flex items-center">
-                            <img src="https://picsum.photos/seed/critic3/100/100" alt="评论家照片" class="w-12 h-12 rounded-full object-cover mr-4">
+                            <img src="https://picsum.photos/seed/critic3/100/100" alt="评论家照片"
+                                class="w-12 h-12 rounded-full object-cover mr-4">
                             <div>
                                 <div class="font-bold">王作家</div>
                                 <div class="text-sm text-gray-500">著名作家</div>
@@ -631,7 +725,9 @@
 
             <div class="relative">
                 <!-- 时间线 -->
-                <div class="absolute left-0 md:left-1/2 top-0 bottom-0 w-1 bg-primary/20 transform md:translate-x-[-50%]"></div>
+                <div
+                    class="absolute left-0 md:left-1/2 top-0 bottom-0 w-1 bg-primary/20 transform md:translate-x-[-50%]">
+                </div>
 
                 <!-- 时间点1 -->
                 <div class="relative mb-12 md:mb-24 fade-in">
@@ -644,7 +740,9 @@
                                 </p>
                             </div>
                         </div>
-                        <div class="absolute left-0 md:left-1/2 w-6 h-6 bg-primary rounded-full border-4 border-white shadow-lg transform md:translate-x-[-50%] z-10 order-1 md:order-2"></div>
+                        <div
+                            class="absolute left-0 md:left-1/2 w-6 h-6 bg-primary rounded-full border-4 border-white shadow-lg transform md:translate-x-[-50%] z-10 order-1 md:order-2">
+                        </div>
                         <div class="md:w-1/2 md:pl-12 mt-4 md:mt-0 order-3">
                             <div class="text-lg font-bold text-primary">1977年</div>
                         </div>
@@ -655,7 +753,9 @@
                 <div class="relative mb-12 md:mb-24 fade-in" style="animation-delay: 0.2s">
                     <div class="flex flex-col md:flex-row items-center">
                         <div class="md:w-1/2 md:pr-12 md:text-right md:order-1 hidden md:block"></div>
-                        <div class="absolute left-0 md:left-1/2 w-6 h-6 bg-primary rounded-full border-4 border-white shadow-lg transform md:translate-x-[-50%] z-10 order-1"></div>
+                        <div
+                            class="absolute left-0 md:left-1/2 w-6 h-6 bg-primary rounded-full border-4 border-white shadow-lg transform md:translate-x-[-50%] z-10 order-1">
+                        </div>
                         <div class="md:w-1/2 md:pl-12 order-2">
                             <div class="bg-white p-6 rounded-xl shadow-lg">
                                 <h3 class="text-xl font-bold text-primary mb-2">转向军事纪实文学</h3>
@@ -679,7 +779,9 @@
                                 </p>
                             </div>
                         </div>
-                        <div class="absolute left-0 md:left-1/2 w-6 h-6 bg-primary rounded-full border-4 border-white shadow-lg transform md:translate-x-[-50%] z-10 order-1 md:order-2"></div>
+                        <div
+                            class="absolute left-0 md:left-1/2 w-6 h-6 bg-primary rounded-full border-4 border-white shadow-lg transform md:translate-x-[-50%] z-10 order-1 md:order-2">
+                        </div>
                         <div class="md:w-1/2 md:pl-12 mt-4 md:mt-0 order-3">
                             <div class="text-lg font-bold text-primary">2009年</div>
                         </div>
@@ -690,7 +792,9 @@
                 <div class="relative mb-12 md:mb-24 fade-in" style="animation-delay: 0.6s">
                     <div class="flex flex-col md:flex-row items-center">
                         <div class="md:w-1/2 md:pr-12 md:text-right md:order-1 hidden md:block"></div>
-                        <div class="absolute left-0 md:left-1/2 w-6 h-6 bg-primary rounded-full border-4 border-white shadow-lg transform md:translate-x-[-50%] z-10 order-1"></div>
+                        <div
+                            class="absolute left-0 md:left-1/2 w-6 h-6 bg-primary rounded-full border-4 border-white shadow-lg transform md:translate-x-[-50%] z-10 order-1">
+                        </div>
                         <div class="md:w-1/2 md:pl-12 order-2">
                             <div class="bg-white p-6 rounded-xl shadow-lg">
                                 <h3 class="text-xl font-bold text-primary mb-2">加入中国作家协会</h3>
@@ -714,7 +818,9 @@
                                 </p>
                             </div>
                         </div>
-                        <div class="absolute left-0 md:left-1/2 w-6 h-6 bg-primary rounded-full border-4 border-white shadow-lg transform md:translate-x-[-50%] z-10 order-1 md:order-2"></div>
+                        <div
+                            class="absolute left-0 md:left-1/2 w-6 h-6 bg-primary rounded-full border-4 border-white shadow-lg transform md:translate-x-[-50%] z-10 order-1 md:order-2">
+                        </div>
                         <div class="md:w-1/2 md:pl-12 mt-4 md:mt-0 order-3">
                             <div class="text-lg font-bold text-primary">至今</div>
                         </div>
@@ -739,7 +845,8 @@
                 <!-- 评论1 -->
                 <div class="bg-neutral p-6 rounded-xl shadow-lg fade-in">
                     <div class="flex items-center mb-4">
-                        <img src="https://picsum.photos/seed/reviewer1/100/100" alt="读者头像" class="w-12 h-12 rounded-full object-cover mr-4">
+                        <img src="https://picsum.photos/seed/reviewer1/100/100" alt="读者头像"
+                            class="w-12 h-12 rounded-full object-cover mr-4">
                         <div>
                             <div class="font-bold">张先生</div>
                             <div class="text-sm text-gray-500">企业高管</div>
@@ -763,7 +870,8 @@
                 <!-- 评论2 -->
                 <div class="bg-neutral p-6 rounded-xl shadow-lg fade-in" style="animation-delay: 0.2s">
                     <div class="flex items-center mb-4">
-                        <img src="https://picsum.photos/seed/reviewer2/100/100" alt="读者头像" class="w-12 h-12 rounded-full object-cover mr-4">
+                        <img src="https://picsum.photos/seed/reviewer2/100/100" alt="读者头像"
+                            class="w-12 h-12 rounded-full object-cover mr-4">
                         <div>
                             <div class="font-bold">李女士</div>
                             <div class="text-sm text-gray-500">教师</div>
@@ -787,7 +895,8 @@
                 <!-- 评论3 -->
                 <div class="bg-neutral p-6 rounded-xl shadow-lg fade-in" style="animation-delay: 0.4s">
                     <div class="flex items-center mb-4">
-                        <img src="https://picsum.photos/seed/reviewer3/100/100" alt="读者头像" class="w-12 h-12 rounded-full object-cover mr-4">
+                        <img src="https://picsum.photos/seed/reviewer3/100/100" alt="读者头像"
+                            class="w-12 h-12 rounded-full object-cover mr-4">
                         <div>
                             <div class="font-bold">王先生</div>
                             <div class="text-sm text-gray-500">退休军人</div>
@@ -811,7 +920,8 @@
                 <!-- 评论4 -->
                 <div class="bg-neutral p-6 rounded-xl shadow-lg fade-in">
                     <div class="flex items-center mb-4">
-                        <img src="https://picsum.photos/seed/reviewer4/100/100" alt="读者头像" class="w-12 h-12 rounded-full object-cover mr-4">
+                        <img src="https://picsum.photos/seed/reviewer4/100/100" alt="读者头像"
+                            class="w-12 h-12 rounded-full object-cover mr-4">
                         <div>
                             <div class="font-bold">赵女士</div>
                             <div class="text-sm text-gray-500">大学生</div>
@@ -835,7 +945,8 @@
                 <!-- 评论5 -->
                 <div class="bg-neutral p-6 rounded-xl shadow-lg fade-in" style="animation-delay: 0.2s">
                     <div class="flex items-center mb-4">
-                        <img src="https://picsum.photos/seed/reviewer5/100/100" alt="读者头像" class="w-12 h-12 rounded-full object-cover mr-4">
+                        <img src="https://picsum.photos/seed/reviewer5/100/100" alt="读者头像"
+                            class="w-12 h-12 rounded-full object-cover mr-4">
                         <div>
                             <div class="font-bold">陈先生</div>
                             <div class="text-sm text-gray-500">历史爱好者</div>
@@ -859,7 +970,8 @@
                 <!-- 评论6 -->
                 <div class="bg-neutral p-6 rounded-xl shadow-lg fade-in" style="animation-delay: 0.4s">
                     <div class="flex items-center mb-4">
-                        <img src="https://picsum.photos/seed/reviewer6/100/100" alt="读者头像" class="w-12 h-12 rounded-full object-cover mr-4">
+                        <img src="https://picsum.photos/seed/reviewer6/100/100" alt="读者头像"
+                            class="w-12 h-12 rounded-full object-cover mr-4">
                         <div>
                             <div class="font-bold">刘女士</div>
                             <div class="text-sm text-gray-500">医生</div>
@@ -902,22 +1014,31 @@
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                                 <div>
                                     <label for="name" class="block text-gray-700 font-medium mb-2">姓名</label>
-                                    <input type="text" id="name" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50" placeholder="请输入您的姓名" required>
+                                    <input type="text" id="name"
+                                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50"
+                                        placeholder="请输入您的姓名" required>
                                 </div>
                                 <div>
                                     <label for="email" class="block text-gray-700 font-medium mb-2">邮箱</label>
-                                    <input type="email" id="email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50" placeholder="请输入您的邮箱" required>
+                                    <input type="email" id="email"
+                                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50"
+                                        placeholder="请输入您的邮箱" required>
                                 </div>
                             </div>
                             <div class="mb-6">
                                 <label for="subject" class="block text-gray-700 font-medium mb-2">主题</label>
-                                <input type="text" id="subject" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50" placeholder="请输入留言主题" required>
+                                <input type="text" id="subject"
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50"
+                                    placeholder="请输入留言主题" required>
                             </div>
                             <div class="mb-6">
                                 <label for="message" class="block text-gray-700 font-medium mb-2">留言内容</label>
-                                <textarea id="message" rows="5" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50" placeholder="请输入您的留言内容" required></textarea>
+                                <textarea id="message" rows="5"
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50"
+                                    placeholder="请输入您的留言内容" required></textarea>
                             </div>
-                            <button type="submit" class="bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-lg transition-all shadow-md hover:shadow-lg">
+                            <button type="submit"
+                                class="bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-lg transition-all shadow-md hover:shadow-lg">
                                 提交留言
                             </button>
                         </form>
@@ -951,13 +1072,14 @@
                                     <i class="fa fa-weixin text-xl text-primary"></i>
                                 </div>
                                 <div>
-                                    <div class="text-gray-500 text-sm">微信公众号</div>
-                                    <div class="font-medium">杨勤良文学创作</div>
+                                    <div class="text-gray-500 text-sm">微信</div>
+                                    <div class="font-medium">136 0015 8142</div>
                                 </div>
                             </li>
                             <li class="flex items-start">
                                 <div class="bg-primary/10 p-3 rounded-lg mr-4">
-                                    <i class="fa fa-weibo text-xl text-primary"></i>
+                                    <img src="image\雅俗荐赏.jpg" alt="微信公众号图标" class="h-6 w-6 text-primary">
+                                    <!-- h-8 w-8 控制图标尺寸，可根据实际效果调整 -->
                                 </div>
                                 <div>
                                     <div class="text-gray-500 text-sm">微信公众号</div>
@@ -971,33 +1093,37 @@
                         <h3 class="text-xl font-bold text-primary mb-6">友情链接</h3>
                         <ul class="space-y-4">
                             <li>
-                                <a href="https://www.chinawriter.com.cn/" class="flex items-center text-primary hover:text-accent transition-colors">
+                                <a href="https://www.chinawriter.com.cn/"
+                                    class="flex items-center text-primary hover:text-accent transition-colors">
                                     <i class="fa fa-bookmark-o mr-3"></i>
                                     <span>中国作家网</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="http://www.81.cn/" class="flex items-center text-primary hover:text-accent transition-colors">
+                                <a href="http://www.81.cn/"
+                                    class="flex items-center text-primary hover:text-accent transition-colors">
                                     <i class="fa fa-bookmark-o mr-3"></i>
                                     <span>中国军网</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="https://www.nlc.cn/web/index.shtml" class="flex items-center text-primary hover:text-accent transition-colors">
+                                <a href="https://www.nlc.cn/web/index.shtml"
+                                    class="flex items-center text-primary hover:text-accent transition-colors">
                                     <i class="fa fa-bookmark-o mr-3"></i>
                                     <span>中国国家图书馆</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="https://www.szlib.org.cn/" class="flex items-center text-primary hover:text-accent transition-colors">
+                                <a href="https://www.szlib.org.cn/"
+                                    class="flex items-center text-primary hover:text-accent transition-colors">
                                     <i class="fa fa-bookmark-o mr-3"></i>
                                     <span>深圳图书馆</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="http://www.people.com.cn/" class="flex items-center text-primary hover:text-accent transition-colors">
+                                <a href="http://www.people.com.cn/"
+                                    class="flex items-center text-primary hover:text-accent transition-colors">
                                     <i class="fa fa-bookmark-o mr-3"></i>
                                     <span>人民网</span>
                                 </a>
                             </li>
-                            
