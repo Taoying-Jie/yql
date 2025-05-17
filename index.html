@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>杨勤良个人网页</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1e3a8a', // 深蓝色作为主色调，体现专业性和稳重
+                        secondary: '#3b82f6', // 浅蓝色作为辅助色
+                        accent: '#f97316', // 橙色作为强调色
+                        neutral: '#f3f4f6', // 浅灰色背景
+                        dark: '#1f2937', // 深灰色文本
+                    },
+                    fontFamily: {
+                        inter: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            .card-hover {
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+            }
+            .card-hover:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1);
+            }
+            .fade-in {
+                animation: fadeIn 0.8s ease-in;
+            }
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(20px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+            .nav-link {
+                position: relative;
+            }
+            .nav-link::after {
+                content: '';
+                position: absolute;
+                width: 0;
+                height: 2px;
+                bottom: -4px;
+                left: 0;
+                background-color: #f97316;
+                transition: width 0.3s ease;
+            }
+            .nav-link:hover::after {
+                width: 100%;
+            }
+            .modal {
+                opacity: 0;
+                visibility: hidden;
+                transition: opacity 0.3s ease, visibility 0.3s ease;
+            }
+            .modal.active {
+                opacity: 1;
+                visibility: visible;
+            }
+            .modal-content {
+                transform: translateY(20px);
+                transition: transform 0.3s ease;
+            }
+            .modal.active .modal-content {
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body class="font-inter bg-neutral text-dark">
+    <!-- 导航栏 -->
+    <header class="fixed w-full bg-primary text-white shadow-md z-50 transition-all duration-300" id="navbar">
+        <div class="container mx-auto px-4 py-3">
+            <nav class="flex justify-between items-center">
+                <div class="text-2xl font-bold">杨勤良</div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#bio" class="nav-link">简介</a>
+                    <a href="#works" class="nav-link">作品</a>
+                    <a href="#achievements" class="nav-link">成就</a>
+                    <a href="#timeline" class="nav-link">创作历程</a>
+                    <a href="#reviews" class="nav-link">读者评论</a>
+                    <a href="#contact" class="nav-link">联系</a>
+                </div>
+                <button class="md:hidden text-2xl" id="menuToggle">
+                    <i class="fa fa-bars"></i>
+                </button>
+            </nav>
+        </div>
+        <!-- 移动端菜单 -->
+        <div class="md:hidden hidden bg-primary/95 absolute w-full" id="mobileMenu">
+            <div class="container mx-auto px-4 py-3 flex flex-col space-y-4">
+                <a href="#bio" class="py-2 border-b border-white/20">简介</a>
+                <a href="#works" class="py-2 border-b border-white/20">作品</a>
+                <a href="#achievements" class="py-2 border-b border-white/20">成就</a>
+                <a href="#timeline" class="py-2 border-b border-white/20">创作历程</a>
+                <a href="#reviews" class="py-2 border-b border-white/20">读者评论</a>
+                <a href="#contact" class="py-2">联系</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- 英雄区域 -->
+    <section class="pt-32 pb-20 bg-gradient-to-br from-primary to-secondary text-white">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-10 md:mb-0 fade-in">
+                    <h1 class="text-[clamp(2.5rem,5vw,4rem)] font-bold leading-tight text-shadow">
+                        杨勤良<br>
+                        <span class="text-[clamp(1.5rem,3vw,2.5rem)] font-light">军事文学作家</span>
+                    </h1>
+                    <p class="text-lg mt-6 max-w-lg">
+                        中国作家协会会员，发表作品逾两百万字，专注于红色纪实文学创作，弘扬革命精神。
+                    </p>
+                    <div class="mt-8 flex space-x-4">
+                        <a href="#works" class="bg-accent hover:bg-accent/90 text-white px-6 py-3 rounded-lg transition-all shadow-lg hover:shadow-xl">
+                            浏览作品
+                        </a>
+                        <a href="#contact" class="bg-white/20 hover:bg-white/30 text-white border border-white/40 px-6 py-3 rounded-lg transition-all">
+                            联系作者
+                        </a>
+                    </div>
+                </div>
+                <div class="md:w-1/2 fade-in" style="animation-delay: 0.3s">
+                    <img src="image\杨勤良.jpeg" alt="杨勤良照片" class=" w-64 h-96 md:w-64 md:h-96 mx-auto object-cover border-8 border-white/20 shadow-2xl">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 简介部分 -->
+    <section id="bio" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-[clamp(2rem,4vw,3rem)] font-bold text-primary">个人简介</h2>
+                <div class="w-20 h-1 bg-accent mx-auto mt-4"></div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                <div class="md:col-span-2 fade-in">
+                    <p class="text-lg leading-relaxed mb-6">
+                        杨勤良，中共党员，参战退役军人，深圳市五一劳动奖章获得者，中国作家协会会员。1960年12月生于江西修水，本科毕业。1977年投身文学创作，在长篇纪实文学、短篇小说等领域成果显著，发表作品逾两百万字。
+                    </p>
+                    <p class="text-lg leading-relaxed mb-6">
+                        其长篇传记文学《罗霄山之子》《一代骁将曾保堂》《浴血战沙场：一位抗日英雄的传奇经历》等，通过红色精神传递正能量。短篇小说《木棉花开》收录了1977至2016年创作的60篇作品，多篇被《解放军报》转载。
+                    </p>
+                    <p class="text-lg leading-relaxed mb-6">
+                        创作屡获殊荣，获解放军报第七届、第九届长征文艺奖，报告文学《阳光大道上的 “志愿” 人生》获第二届 “志愿文学” 征文报告文学类二等奖  ，《放羊娃的足迹 —— 记老红军王鸿荣》《木棉花开》被国家图书馆收藏 。
+                    </p>
+                    <p class="text-lg leading-relaxed mb-6">
+                        2025 年 4 月，杨勤良推出《核铀国魂：揭开中国铀矿采冶神秘面纱》。作为核铀矿工人子弟，其作品真实展现第一代核工业铀矿采冶者的奋斗图景，填补核工业题材文学空白，为爱国主义教育提供生动素材，兼具文学与历史价值。                    </p>
+                    </p>
+                    <p class="text-lg leading-relaxed mb-6">
+                        杨勤良深耕红色文化与文学领域，其作品有机融合历史厚重底蕴与人文关怀精髓，依托深厚文学造诣，有力彰显奋斗精神的时代内涵，堪称当代文学弘扬时代价值的中坚力量，为社会主义文化事业的繁荣兴盛作出独特而重要的贡献。
+                    </p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-10">
+                        <div class="bg-neutral p-6 rounded-xl shadow-md">
+                            <div class="text-4xl font-bold text-primary mb-2">200万+</div>
+                            <div class="text-gray-600">创作字数</div>
+                        </div>
+                        <div class="bg-neutral p-6 rounded-xl shadow-md">
+                            <div class="text-4xl font-bold text-primary mb-2">10+</div>
+                            <div class="text-gray-600">出版著作</div>
+                        </div>
+                        <div class="bg-neutral p-6 rounded-xl shadow-md">
+                            <div class="text-4xl font-bold text-primary mb-2">10+</div>
+                            <div class="text-gray-600">文学奖项</div>
+                        </div>
+                        <div class="bg-neutral p-6 rounded-xl shadow-md">
+                            <div class="text-4xl font-bold text-primary mb-2">30年+</div>
+                            <div class="text-gray-600">创作生涯</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="fade-in" style="animation-delay: 0.3s">
+                    <div class="bg-primary/5 rounded-xl p-8 shadow-lg">
+                        <h3 class="text-xl font-bold text-primary mb-6">基本信息</h3>
+                        <ul class="space-y-4">
+                            <li class="flex items-start">
+                                <i class="fa fa-user-circle text-primary mt-1 mr-4 text-xl"></i>
+                                <div>
+                                    <div class="text-gray-500 text-sm">姓名</div>
+                                    <div class="font-medium">杨勤良</div>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-calendar text-primary mt-1 mr-4 text-xl"></i>
+                                <div>
+                                    <div class="text-gray-500 text-sm">出生日期</div>
+                                    <div class="font-medium">1960年12月</div>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-book text-primary mt-1 mr-4 text-xl"></i>
+                                <div>
+                                    <div class="text-gray-500 text-sm">职业</div>
+                                    <div class="font-medium">作家、讲师</div>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-map-marker text-primary mt-1 mr-4 text-xl"></i>
+                                <div>
+                                    <div class="text-gray-500 text-sm">籍贯</div>
+                                    <div class="font-medium">江西修水</div>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-pencil text-primary mt-1 mr-4 text-xl"></i>
+                                <div>
+                                    <div class="text-gray-500 text-sm">创作领域</div>
+                                    <div class="font-medium">军事文学、纪实文学、报告文学、短篇小说</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 作品部分 -->
+    <section id="works" class="py-20 bg-neutral">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-[clamp(2rem,4vw,3rem)] font-bold text-primary">主要作品</h2>
+                <div class="w-20 h-1 bg-accent mx-auto mt-4"></div>
+                <p class="mt-6 text-lg text-gray-600 max-w-2xl mx-auto">
+                    杨勤良的作品以军事纪实文学为主，深刻展现了革命先辈的英勇事迹和崇高精神
+                </p>
+            </div>
+
+            <!-- 推荐阅读 -->
+            <div class="mb-12 fade-in" style="animation-delay: 0.2s">
+                <h3 class="text-xl font-bold text-primary mb-6">编辑推荐</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="bg-white rounded-xl overflow-hidden shadow-lg card-hover">
+                        <div class="relative">
+                            <img src="image\核铀国魂.jpeg" alt="《核铀国魂》封面" class="w-full h-48 object-cover">
+                            <div class="absolute top-3 left-3 bg-accent text-white text-xs font-bold px-2 py-1 rounded">
+                                编辑推荐
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h4 class="font-bold text-lg mb-2">《核铀国魂：揭开中国铀矿采冶神秘面纱》</h4>
+                            <div class="flex items-center text-sm text-gray-500 mb-3">
+                                <i class="fa fa-eye mr-1"></i> 25.6万阅读
+                            </div>
+                            <p class="text-gray-600 text-sm line-clamp-3">
+                                揭秘铀矿采冶奋斗史，讲述铀矿建设者投身原子能事业、不畏艰险的奋斗故事，致敬核工业开拓者，纪念中国核工业创建70周年。
+                            </p>
+                            <button class="view-details mt-4 text-primary hover:text-accent font-medium text-sm transition-colors" data-id="work1">
+                                阅读详情 <i class="fa fa-arrow-right ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-xl overflow-hidden shadow-lg card-hover">
+                        <div class="relative">
+                            <img src="image\浴血战沙场.jpeg" alt="《浴血战沙场》封面" class="w-full h-48 object-cover">
+                            <div class="absolute top-3 left-3 bg-accent text-white text-xs font-bold px-2 py-1 rounded">
+                                编辑推荐
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h4 class="font-bold text-lg mb-2">《浴血战沙场:一位抗日英雄的传奇经历》</h4>
+                            <div class="flex items-center text-sm text-gray-500 mb-3">
+                                <i class="fa fa-eye mr-1"></i> 21.3万阅读
+                            </div>
+                            <p class="text-gray-600 text-sm line-clamp-3">
+                                黄埔生王大中投身抗战及新中国建设有功。
+                            </p>
+                            <button class="view-details mt-4 text-primary hover:text-accent font-medium text-sm transition-colors" data-id="work3">
+                                阅读详情 <i class="fa fa-arrow-right ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-xl overflow-hidden shadow-lg card-hover">
+                        <div class="relative">
+                            <img src="image\木棉花开.jpeg" alt="《木棉花开》封面" class="w-full h-48 object-cover">
+                            <div class="absolute top-3 left-3 bg-accent text-white text-xs font-bold px-2 py-1 rounded">
+                                编辑推荐
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h4 class="font-bold text-lg mb-2">《木棉花开》</h4>
+                            <div class="flex items-center text-sm text-gray-500 mb-3">
+                                <i class="fa fa-eye mr-1"></i> 18.7万阅读
+                            </div>
+                            <p class="text-gray-600 text-sm line-clamp-3">
+                                收录1977至2016年创作的六十篇短篇小说。
+                            </p>
+                            <button class="view-details mt-4 text-primary hover:text-accent font-medium text-sm transition-colors" data-id="work4">
+                                阅读详情 <i class="fa fa-arrow-right ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-xl overflow-hidden shadow-lg card-hover">
+                        <div class="relative">
+                            <img src="image\曾保堂.jpeg" alt="《信仰的力量》封面" class="w-full h-48 object-cover">
+                            <div class="absolute top-3 left-3 bg-accent text-white text-xs font-bold px-2 py-1 rounded">
+                                编辑推荐
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h4 class="font-bold text-lg mb-2">《一代骁将曾保堂》</h4>
+                            <div class="flex items-center text-sm text-gray-500 mb-3">
+                                <i class="fa fa-eye mr-1"></i> 15.2万阅读
+                            </div>
+                            <p class="text-gray-600 text-sm line-clamp-3">
+                                介绍曾保堂生平：历经革命、抗战、建国等时期。
+                            </p>
+                            <button class="view-details mt-4 text-primary hover:text-accent font-medium text-sm transition-colors" data-id="work6">
+                                阅读详情 <i class="fa fa-arrow-right ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 全部作品 -->
+            <h3 class="text-xl font-bold text-primary mb-6">全部作品</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- 作品卡片1 -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-lg card-hover fade-in">
+                    <div class="relative">
+                        <img src="https://picsum.photos/seed/luoxiao/600/400" alt="《罗霄山之子》封面" class="w-full h-64 object-cover">
+                        <div class="absolute top-4 right-4 bg-accent text-white text-sm font-bold px-3 py-1 rounded-full">
+                            2009年
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-primary mb-3">《罗霄山之子：记李元林将军》</h3>
+                        <div class="flex items-center text-sm text-gray-500 mb-4">
+                            <i class="fa fa-eye mr-1"></i> 25.6万阅读
+                        </div>
+                        <p class="text-gray-600 mb-4">
+                            记录李元林将军的一生，展现坚定顽强的革命精神、崇高的思想品质与人格魅力。
+                        </p>
+                        <button class="view-details text-primary hover:text-accent font-medium transition-colors" data-id="work1">
+                            阅读详情 <i class="fa fa-arrow-right ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 作品卡片2 -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-lg card-hover fade-in" style="animation-delay: 0.2s">
+                    <div class="relative">
+                        <img src="https://picsum.photos/seed/zengbaotang/600/400" alt="《一代骁将曾保堂》封面" class="w-full h-64 object-cover">
+                        <div class="absolute top-4 right-4 bg-accent text-white text-sm font-bold px-3 py-1 rounded-full">
+                            2012年
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-primary mb-3">《一代骁将曾保堂》</h3>
+                        <div class="flex items-center text-sm text-gray-500 mb-4">
+                            <i class="fa fa-eye mr-1"></i> 19.8万阅读
+                        </div>
+                        <p class="text-gray-600 mb-4">
+                            深入挖掘曾保堂事迹，分少年时代、北上革命征途等篇章，反映革命岁月。
+                        </p>
+                        <button class="view-details text-primary hover:text-accent font-medium transition-colors" data-id="work2">
+                            阅读详情 <i class="fa fa-arrow-right ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 作品卡片3 -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-lg card-hover fade-in" style="animation-delay: 0.4s">
+                    <div class="relative">
+                        <img src="https://picsum.photos/seed/kangri/600/400" alt="《浴血战沙场》封面" class="w-full h-64 object-cover">
+                        <div class="absolute top-4 right-4 bg-accent text-white text-sm font-bold px-3 py-1 rounded-full">
+                            2015年
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-primary mb-3">《浴血战沙场：一位抗日英雄的传奇经历》</h3>
+                        <div class="flex items-center text-sm text-gray-500 mb-4">
+                            <i class="fa fa-eye mr-1"></i> 21.3万阅读
+                        </div>
+                        <p class="text-gray-600 mb-4">
+                            记录抗日英雄王满仓事迹，展现从普通战士到英雄的历程。
+                        </p>
+                        <button class="view-details text-primary hover:text-accent font-medium transition-colors" data-id="work3">
+                            阅读详情 <i class="fa fa-arrow-right ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 作品卡片4 -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-lg card-hover fade-in">
+                    <div class="relative">
+                        <img src="https://picsum.photos/seed/mumian/600/400" alt="《木棉花开》封面" class="w-full h-64 object-cover">
+                        <div class="absolute top-4 right-4 bg-accent text-white text-sm font-bold px-3 py-1 rounded-full">
+                            2017年
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-primary mb-3">《木棉花开》</h3>
+                        <div class="flex items-center text-sm text-gray-500 mb-4">
+                            <i class="fa fa-eye mr-1"></i> 18.7万阅读
+                        </div>
+                        <p class="text-gray-600 mb-4">
+                            收录1977至2016年创作的六十篇短篇小说，以石油工地为背景，展现工人精神风貌。
+                        </p>
+                        <button class="view-details text-primary hover:text-accent font-medium transition-colors" data-id="work4">
+                            阅读详情 <i class="fa fa-arrow-right ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 作品卡片5 -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-lg card-hover fade-in" style="animation-delay: 0.2s">
+                    <div class="relative">
+                        <img src="https://picsum.photos/seed/jiangxi/600/400" alt="《江西英烈传》封面" class="w-full h-64 object-cover">
+                        <div class="absolute top-4 right-4 bg-accent text-white text-sm font-bold px-3 py-1 rounded-full">
+                            2019年
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-primary mb-3">《江西英烈传》</h3>
+                        <div class="flex items-center text-sm text-gray-500 mb-4">
+                            <i class="fa fa-eye mr-1"></i> 14.5万阅读
+                        </div>
+                        <p class="text-gray-600 mb-4">
+                            记录江西籍革命英烈的英勇事迹，弘扬革命精神和爱国主义精神。
+                        </p>
+                        <button class="view-details text-primary hover:text-accent font-medium transition-colors" data-id="work5">
+                            阅读详情 <i class="fa fa-arrow-right ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 作品卡片6 -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-lg card-hover fade-in" style="animation-delay: 0.4s">
+                    <div class="relative">
+                        <img src="https://picsum.photos/seed/xinyong/600/400" alt="《信仰的力量》封面" class="w-full h-64 object-cover">
+                        <div class="absolute top-4 right-4 bg-accent text-white text-sm font-bold px-3 py-1 rounded-full">
+                            2021年
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-primary mb-3">《信仰的力量》</h3>
+                        <div class="flex items-center text-sm text-gray-500 mb-4">
+                            <i class="fa fa-eye mr-1"></i> 15.2万阅读
+                        </div>
+                        <p class="text-gray-600 mb-4">
+                            通过多位革命人物的故事，展现信仰在革命年代的重要作用和力量。
+                        </p>
+                        <button class="view-details text-primary hover:text-accent font-medium transition-colors" data-id="work6">
+                            阅读详情 <i class="fa fa-arrow-right ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 成就部分 -->
+    <section id="achievements" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-[clamp(2rem,4vw,3rem)] font-bold text-primary">创作成就</h2>
+                <div class="w-20 h-1 bg-accent mx-auto mt-4"></div>
+                <p class="mt-6 text-lg text-gray-600 max-w-2xl mx-auto">
+                    杨勤良在文学创作领域取得了众多荣誉，其作品被广泛认可和赞誉
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <div class="fade-in">
+                    <div class="bg-neutral p-8 rounded-xl shadow-lg h-full">
+                        <h3 class="text-xl font-bold text-primary mb-6">文学奖项</h3>
+                        <ul class="space-y-6">
+                            <li class="flex items-start">
+                                <div class="bg-primary/10 p-3 rounded-lg mr-4">
+                                    <i class="fa fa-trophy text-2xl text-primary"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-lg">解放军报第七届长征文艺奖</h4>
+                                    <p class="text-gray-600">因散文《闪光的日子》获得，表彰其在军事文学领域的杰出贡献</p>
+                                    <div class="text-sm text-gray-500 mt-1">2010年</div>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="bg-primary/10 p-3 rounded-lg mr-4">
+                                    <i class="fa fa-trophy text-2xl text-primary"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-lg">解放军报第九届长征文艺奖</h4>
+                                    <p class="text-gray-600">因《一代骁将曾保堂》获得，肯定其对革命历史人物的深刻刻画</p>
+                                    <div class="text-sm text-gray-500 mt-1">2013年</div>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="bg-primary/10 p-3 rounded-lg mr-4">
+                                    <i class="fa fa-trophy text-2xl text-primary"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-lg">第二届"志愿文学"征文报告文学类二等奖</h4>
+                                    <p class="text-gray-600">因《阳光大道上的“志愿”人生》获得，表彰其在纪实文学领域的创新与突破</p>
+                                    <div class="text-sm text-gray-500 mt-1">2018年</div>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="bg-primary/10 p-3 rounded-lg mr-4">
+                                    <i class="fa fa-trophy text-2xl text-primary"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-lg">国家图书馆入藏证书</h4>
+                                    <p class="text-gray-600">《放羊娃的足迹 —— 记老红军王鸿荣》《木棉花开》被国家图书馆收藏</p>
+                                    <div class="text-sm text-gray-500 mt-1">2020年</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="fade-in" style="animation-delay: 0.3s">
+                    <div class="bg-neutral p-8 rounded-xl shadow-lg h-full">
+                        <h3 class="text-xl font-bold text-primary mb-6">创作数据</h3>
+                        <div class="grid grid-cols-2 gap-6">
+                            <div class="bg-white p-4 rounded-lg shadow-sm">
+                                <div class="text-3xl font-bold text-primary">12</div>
+                                <div class="text-gray-600">长篇纪实文学</div>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg shadow-sm">
+                                <div class="text-3xl font-bold text-primary">8</div>
+                                <div class="text-gray-600">短篇小说集</div>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg shadow-sm">
+                                <div class="text-3xl font-bold text-primary">6</div>
+                                <div class="text-gray-600">传记文学</div>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg shadow-sm">
+                                <div class="text-3xl font-bold text-primary">200万+</div>
+                                <div class="text-gray-600">总创作字数</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-16 bg-primary/5 p-8 rounded-xl shadow-lg fade-in">
+                <h3 class="text-xl font-bold text-primary mb-6">专业评价</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <div class="text-yellow-400 mb-4">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                        </div>
+                        <p class="text-gray-600 italic mb-4">
+                            "杨勤良的作品以真实的历史为背景，生动再现了革命先辈的英勇事迹，具有很高的历史价值和文学价值。"
+                        </p>
+                        <div class="flex items-center">
+                            <img src="https://picsum.photos/seed/critic1/100/100" alt="评论家照片" class="w-12 h-12 rounded-full object-cover mr-4">
+                            <div>
+                                <div class="font-bold">张教授</div>
+                                <div class="text-sm text-gray-500">军事文学评论家</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <div class="text-yellow-400 mb-4">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                        </div>
+                        <p class="text-gray-600 italic mb-4">
+                            "他的纪实文学作品不仅是对历史的记录，更是对革命精神的传承和弘扬，具有深刻的现实意义。"
+                        </p>
+                        <div class="flex items-center">
+                            <img src="https://picsum.photos/seed/critic2/100/100" alt="评论家照片" class="w-12 h-12 rounded-full object-cover mr-4">
+                            <div>
+                                <div class="font-bold">李编辑</div>
+                                <div class="text-sm text-gray-500">某出版社主编</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <div class="text-yellow-400 mb-4">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star-half-o"></i>
+                        </div>
+                        <p class="text-gray-600 italic mb-4">
+                            "杨勤良笔下的英雄人物栩栩如生，他们的故事让人深受感动，激发了读者的爱国热情和社会责任感。"
+                        </p>
+                        <div class="flex items-center">
+                            <img src="https://picsum.photos/seed/critic3/100/100" alt="评论家照片" class="w-12 h-12 rounded-full object-cover mr-4">
+                            <div>
+                                <div class="font-bold">王作家</div>
+                                <div class="text-sm text-gray-500">著名作家</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 创作历程时间线 -->
+    <section id="timeline" class="py-20 bg-neutral">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-[clamp(2rem,4vw,3rem)] font-bold text-primary">创作历程</h2>
+                <div class="w-20 h-1 bg-accent mx-auto mt-4"></div>
+                <p class="mt-6 text-lg text-gray-600 max-w-2xl mx-auto">
+                    杨勤良的文学创作生涯跨越数十年，见证了他在文学道路上的不断探索与成长
+                </p>
+            </div>
+
+            <div class="relative">
+                <!-- 时间线 -->
+                <div class="absolute left-0 md:left-1/2 top-0 bottom-0 w-1 bg-primary/20 transform md:translate-x-[-50%]"></div>
+
+                <!-- 时间点1 -->
+                <div class="relative mb-12 md:mb-24 fade-in">
+                    <div class="flex flex-col md:flex-row items-center">
+                        <div class="md:w-1/2 md:pr-12 md:text-right order-2 md:order-1">
+                            <div class="bg-white p-6 rounded-xl shadow-lg">
+                                <h3 class="text-xl font-bold text-primary mb-2">开始文学创作</h3>
+                                <p class="text-gray-600">
+                                    1977年，杨勤良开始文学创作，最初以短篇小说为主，作品多反映石油工人的生活。
+                                </p>
+                            </div>
+                        </div>
+                        <div class="absolute left-0 md:left-1/2 w-6 h-6 bg-primary rounded-full border-4 border-white shadow-lg transform md:translate-x-[-50%] z-10 order-1 md:order-2"></div>
+                        <div class="md:w-1/2 md:pl-12 mt-4 md:mt-0 order-3">
+                            <div class="text-lg font-bold text-primary">1977年</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 时间点2 -->
+                <div class="relative mb-12 md:mb-24 fade-in" style="animation-delay: 0.2s">
+                    <div class="flex flex-col md:flex-row items-center">
+                        <div class="md:w-1/2 md:pr-12 md:text-right md:order-1 hidden md:block"></div>
+                        <div class="absolute left-0 md:left-1/2 w-6 h-6 bg-primary rounded-full border-4 border-white shadow-lg transform md:translate-x-[-50%] z-10 order-1"></div>
+                        <div class="md:w-1/2 md:pl-12 order-2">
+                            <div class="bg-white p-6 rounded-xl shadow-lg">
+                                <h3 class="text-xl font-bold text-primary mb-2">转向军事纪实文学</h3>
+                                <p class="text-gray-600">
+                                    1990年代中期，杨勤良开始转向军事纪实文学创作，致力于记录革命历史和英雄人物。
+                                </p>
+                            </div>
+                            <div class="text-lg font-bold text-primary mt-4">1995年</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 时间点3 -->
+                <div class="relative mb-12 md:mb-24 fade-in" style="animation-delay: 0.4s">
+                    <div class="flex flex-col md:flex-row items-center">
+                        <div class="md:w-1/2 md:pr-12 md:text-right order-2 md:order-1">
+                            <div class="bg-white p-6 rounded-xl shadow-lg">
+                                <h3 class="text-xl font-bold text-primary mb-2">出版首部重要作品</h3>
+                                <p class="text-gray-600">
+                                    2009年，出版长篇传记文学《罗霄山之子：记李元林将军》，获得广泛好评。
+                                </p>
+                            </div>
+                        </div>
+                        <div class="absolute left-0 md:left-1/2 w-6 h-6 bg-primary rounded-full border-4 border-white shadow-lg transform md:translate-x-[-50%] z-10 order-1 md:order-2"></div>
+                        <div class="md:w-1/2 md:pl-12 mt-4 md:mt-0 order-3">
+                            <div class="text-lg font-bold text-primary">2009年</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 时间点4 -->
+                <div class="relative mb-12 md:mb-24 fade-in" style="animation-delay: 0.6s">
+                    <div class="flex flex-col md:flex-row items-center">
+                        <div class="md:w-1/2 md:pr-12 md:text-right md:order-1 hidden md:block"></div>
+                        <div class="absolute left-0 md:left-1/2 w-6 h-6 bg-primary rounded-full border-4 border-white shadow-lg transform md:translate-x-[-50%] z-10 order-1"></div>
+                        <div class="md:w-1/2 md:pl-12 order-2">
+                            <div class="bg-white p-6 rounded-xl shadow-lg">
+                                <h3 class="text-xl font-bold text-primary mb-2">加入中国作家协会</h3>
+                                <p class="text-gray-600">
+                                    2015年，杨勤良加入中国作家协会，成为正式会员，标志着他在文学界的地位得到认可。
+                                </p>
+                            </div>
+                            <div class="text-lg font-bold text-primary mt-4">2015年</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 时间点5 -->
+                <div class="relative fade-in" style="animation-delay: 0.8s">
+                    <div class="flex flex-col md:flex-row items-center">
+                        <div class="md:w-1/2 md:pr-12 md:text-right order-2 md:order-1">
+                            <div class="bg-white p-6 rounded-xl shadow-lg">
+                                <h3 class="text-xl font-bold text-primary mb-2">持续创作与影响力扩大</h3>
+                                <p class="text-gray-600">
+                                    近年来，杨勤良继续深耕军事纪实文学领域，作品被多次改编为影视作品，影响力不断扩大。
+                                </p>
+                            </div>
+                        </div>
+                        <div class="absolute left-0 md:left-1/2 w-6 h-6 bg-primary rounded-full border-4 border-white shadow-lg transform md:translate-x-[-50%] z-10 order-1 md:order-2"></div>
+                        <div class="md:w-1/2 md:pl-12 mt-4 md:mt-0 order-3">
+                            <div class="text-lg font-bold text-primary">至今</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 读者评论部分 -->
+    <section id="reviews" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-[clamp(2rem,4vw,3rem)] font-bold text-primary">读者评论</h2>
+                <div class="w-20 h-1 bg-accent mx-auto mt-4"></div>
+                <p class="mt-6 text-lg text-gray-600 max-w-2xl mx-auto">
+                    来自读者的真实反馈，见证杨勤良作品的影响力
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- 评论1 -->
+                <div class="bg-neutral p-6 rounded-xl shadow-lg fade-in">
+                    <div class="flex items-center mb-4">
+                        <img src="https://picsum.photos/seed/reviewer1/100/100" alt="读者头像" class="w-12 h-12 rounded-full object-cover mr-4">
+                        <div>
+                            <div class="font-bold">张先生</div>
+                            <div class="text-sm text-gray-500">企业高管</div>
+                        </div>
+                    </div>
+                    <div class="text-yellow-400 mb-4">
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                    </div>
+                    <p class="text-gray-600 mb-3">
+                        "读完《罗霄山之子》，我被李元林将军的故事深深打动。作者用生动的笔触还原了那段历史，让我对革命先辈有了更深的敬意。"
+                    </p>
+                    <div class="text-sm text-gray-500">
+                        评论于 2024-10-15
+                    </div>
+                </div>
+
+                <!-- 评论2 -->
+                <div class="bg-neutral p-6 rounded-xl shadow-lg fade-in" style="animation-delay: 0.2s">
+                    <div class="flex items-center mb-4">
+                        <img src="https://picsum.photos/seed/reviewer2/100/100" alt="读者头像" class="w-12 h-12 rounded-full object-cover mr-4">
+                        <div>
+                            <div class="font-bold">李女士</div>
+                            <div class="text-sm text-gray-500">教师</div>
+                        </div>
+                    </div>
+                    <div class="text-yellow-400 mb-4">
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star-half-o"></i>
+                    </div>
+                    <p class="text-gray-600 mb-3">
+                        "作为一名教师，我经常向学生推荐杨勤良的作品。《浴血战沙场》是我课堂上的必读书目，学生们都被英雄的故事所感染。"
+                    </p>
+                    <div class="text-sm text-gray-500">
+                        评论于 2024-12-08
+                    </div>
+                </div>
+
+                <!-- 评论3 -->
+                <div class="bg-neutral p-6 rounded-xl shadow-lg fade-in" style="animation-delay: 0.4s">
+                    <div class="flex items-center mb-4">
+                        <img src="https://picsum.photos/seed/reviewer3/100/100" alt="读者头像" class="w-12 h-12 rounded-full object-cover mr-4">
+                        <div>
+                            <div class="font-bold">王先生</div>
+                            <div class="text-sm text-gray-500">退休军人</div>
+                        </div>
+                    </div>
+                    <div class="text-yellow-400 mb-4">
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                    </div>
+                    <p class="text-gray-600 mb-3">
+                        "作为一名老兵，我对《一代骁将曾保堂》深有感触。作者对战争场景的描写非常真实，让我想起了自己的军旅生涯。非常感谢作者记录这些英雄的故事。"
+                    </p>
+                    <div class="text-sm text-gray-500">
+                        评论于 2025-01-22
+                    </div>
+                </div>
+
+                <!-- 评论4 -->
+                <div class="bg-neutral p-6 rounded-xl shadow-lg fade-in">
+                    <div class="flex items-center mb-4">
+                        <img src="https://picsum.photos/seed/reviewer4/100/100" alt="读者头像" class="w-12 h-12 rounded-full object-cover mr-4">
+                        <div>
+                            <div class="font-bold">赵女士</div>
+                            <div class="text-sm text-gray-500">大学生</div>
+                        </div>
+                    </div>
+                    <div class="text-yellow-400 mb-4">
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star-o"></i>
+                    </div>
+                    <p class="text-gray-600 mb-3">
+                        "《木棉花开》中的故事非常感人，尤其是那些关于石油工人的描写，让我对那个时代有了更深刻的认识。作者的文笔细腻，值得一读。"
+                    </p>
+                    <div class="text-sm text-gray-500">
+                        评论于 2025-02-15
+                    </div>
+                </div>
+
+                <!-- 评论5 -->
+                <div class="bg-neutral p-6 rounded-xl shadow-lg fade-in" style="animation-delay: 0.2s">
+                    <div class="flex items-center mb-4">
+                        <img src="https://picsum.photos/seed/reviewer5/100/100" alt="读者头像" class="w-12 h-12 rounded-full object-cover mr-4">
+                        <div>
+                            <div class="font-bold">陈先生</div>
+                            <div class="text-sm text-gray-500">历史爱好者</div>
+                        </div>
+                    </div>
+                    <div class="text-yellow-400 mb-4">
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                    </div>
+                    <p class="text-gray-600 mb-3">
+                        "作为历史爱好者，我非常欣赏杨勤良对历史细节的把握。《江西英烈传》中记录的许多事迹都是我从未听说过的，非常有价值。"
+                    </p>
+                    <div class="text-sm text-gray-500">
+                        评论于 2025-03-10
+                    </div>
+                </div>
+
+                <!-- 评论6 -->
+                <div class="bg-neutral p-6 rounded-xl shadow-lg fade-in" style="animation-delay: 0.4s">
+                    <div class="flex items-center mb-4">
+                        <img src="https://picsum.photos/seed/reviewer6/100/100" alt="读者头像" class="w-12 h-12 rounded-full object-cover mr-4">
+                        <div>
+                            <div class="font-bold">刘女士</div>
+                            <div class="text-sm text-gray-500">医生</div>
+                        </div>
+                    </div>
+                    <div class="text-yellow-400 mb-4">
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star-half-o"></i>
+                    </div>
+                    <p class="text-gray-600 mb-3">
+                        "《信仰的力量》让我深受启发。在工作中遇到困难时，我常常会想起书中那些革命先辈的故事，他们的坚持和信念给了我很大的力量。"
+                    </p>
+                    <div class="text-sm text-gray-500">
+                        评论于 2025-04-05
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 联系部分 -->
+    <section id="contact" class="py-20 bg-primary/5">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-[clamp(2rem,4vw,3rem)] font-bold text-primary">联系作者</h2>
+                <div class="w-20 h-1 bg-accent mx-auto mt-4"></div>
+                <p class="mt-6 text-lg text-gray-600 max-w-2xl mx-auto">
+                    如果您对杨勤良的作品有任何问题或建议，欢迎通过以下方式联系我们
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+                <div class="lg:col-span-2 fade-in">
+                    <div class="bg-white p-8 rounded-xl shadow-lg">
+                        <h3 class="text-xl font-bold text-primary mb-6">留言咨询</h3>
+                        <form id="contactForm">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                                <div>
+                                    <label for="name" class="block text-gray-700 font-medium mb-2">姓名</label>
+                                    <input type="text" id="name" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50" placeholder="请输入您的姓名" required>
+                                </div>
+                                <div>
+                                    <label for="email" class="block text-gray-700 font-medium mb-2">邮箱</label>
+                                    <input type="email" id="email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50" placeholder="请输入您的邮箱" required>
+                                </div>
+                            </div>
+                            <div class="mb-6">
+                                <label for="subject" class="block text-gray-700 font-medium mb-2">主题</label>
+                                <input type="text" id="subject" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50" placeholder="请输入留言主题" required>
+                            </div>
+                            <div class="mb-6">
+                                <label for="message" class="block text-gray-700 font-medium mb-2">留言内容</label>
+                                <textarea id="message" rows="5" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50" placeholder="请输入您的留言内容" required></textarea>
+                            </div>
+                            <button type="submit" class="bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-lg transition-all shadow-md hover:shadow-lg">
+                                提交留言
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="fade-in" style="animation-delay: 0.3s">
+                    <div class="bg-white p-8 rounded-xl shadow-lg mb-8">
+                        <h3 class="text-xl font-bold text-primary mb-6">联系方式</h3>
+                        <ul class="space-y-6">
+                            <li class="flex items-start">
+                                <div class="bg-primary/10 p-3 rounded-lg mr-4">
+                                    <i class="fa fa-envelope text-xl text-primary"></i>
+                                </div>
+                                <div>
+                                    <div class="text-gray-500 text-sm">邮箱</div>
+                                    <div class="font-medium">1035943004@qq.com</div>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="bg-primary/10 p-3 rounded-lg mr-4">
+                                    <i class="fa fa-phone text-xl text-primary"></i>
+                                </div>
+                                <div>
+                                    <div class="text-gray-500 text-sm">电话</div>
+                                    <div class="font-medium">+86 136 0015 8142</div>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="bg-primary/10 p-3 rounded-lg mr-4">
+                                    <i class="fa fa-weixin text-xl text-primary"></i>
+                                </div>
+                                <div>
+                                    <div class="text-gray-500 text-sm">微信公众号</div>
+                                    <div class="font-medium">杨勤良文学创作</div>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="bg-primary/10 p-3 rounded-lg mr-4">
+                                    <i class="fa fa-weibo text-xl text-primary"></i>
+                                </div>
+                                <div>
+                                    <div class="text-gray-500 text-sm">微信公众号</div>
+                                    <div class="font-medium">雅俗荐赏</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-8 rounded-xl shadow-lg">
+                        <h3 class="text-xl font-bold text-primary mb-6">友情链接</h3>
+                        <ul class="space-y-4">
+                            <li>
+                                <a href="https://www.chinawriter.com.cn/" class="flex items-center text-primary hover:text-accent transition-colors">
+                                    <i class="fa fa-bookmark-o mr-3"></i>
+                                    <span>中国作家网</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="http://www.81.cn/" class="flex items-center text-primary hover:text-accent transition-colors">
+                                    <i class="fa fa-bookmark-o mr-3"></i>
+                                    <span>中国军网</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://www.nlc.cn/web/index.shtml" class="flex items-center text-primary hover:text-accent transition-colors">
+                                    <i class="fa fa-bookmark-o mr-3"></i>
+                                    <span>中国国家图书馆</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://www.szlib.org.cn/" class="flex items-center text-primary hover:text-accent transition-colors">
+                                    <i class="fa fa-bookmark-o mr-3"></i>
+                                    <span>深圳图书馆</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="http://www.people.com.cn/" class="flex items-center text-primary hover:text-accent transition-colors">
+                                    <i class="fa fa-bookmark-o mr-3"></i>
+                                    <span>人民网</span>
+                                </a>
+                            </li>
+                            
